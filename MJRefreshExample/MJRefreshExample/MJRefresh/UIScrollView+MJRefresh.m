@@ -13,6 +13,7 @@
 @interface UIScrollView()
 
 @property (weak, nonatomic) MJRefreshFooterView *footer;
+@property (nonatomic, copy) void (^beginRefreshingCallback)();
 
 @end
 
@@ -23,6 +24,7 @@
 
 static void *MJRefreshHeaderViewKey = &MJRefreshHeaderViewKey;
 static void *MJRefreshFooterViewKey = &MJRefreshFooterViewKey;
+static void *MJRefreshBeginCallBackKey = &MJRefreshBeginCallBackKey;
 
 - (void)setHeader:(UIRefreshControl *)header {
     [self willChangeValueForKey:@"MJRefreshHeaderViewKey"];
@@ -49,7 +51,18 @@ static void *MJRefreshFooterViewKey = &MJRefreshFooterViewKey;
     return objc_getAssociatedObject(self, &MJRefreshFooterViewKey);
 }
 
+#pragma mark -
 
+- (void)setBeginRefreshingCallback:(void (^)())beginRefreshingCallback
+{
+    objc_setAssociatedObject(self, &MJRefreshBeginCallBackKey,
+                             beginRefreshingCallback,
+                             OBJC_ASSOCIATION_COPY);
+}
+
+- (void (^)())beginRefreshingCallback{
+    return objc_getAssociatedObject(self, &MJRefreshBeginCallBackKey);
+}
 
 #pragma mark - 下拉刷新
 /**
@@ -68,7 +81,14 @@ static void *MJRefreshFooterViewKey = &MJRefreshFooterViewKey;
     }
     
     // 2.设置block回调
-//    self.header.beginRefreshingCallback = callback;
+    self.beginRefreshingCallback = callback;
+    [self.header addTarget:self action:@selector(beginRefreshingCallded) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)beginRefreshingCallded
+{
+    if(self.beginRefreshingCallback)
+        self.beginRefreshingCallback();
 }
 
 /**
