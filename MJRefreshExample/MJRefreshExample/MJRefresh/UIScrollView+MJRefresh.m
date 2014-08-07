@@ -64,6 +64,16 @@ static void *MJRefreshBeginCallBackKey = &MJRefreshBeginCallBackKey;
     return objc_getAssociatedObject(self, &MJRefreshBeginCallBackKey);
 }
 
+#pragma mark - 
+
+- (void)setShouldLoadMoreBlock:(BOOL (^)())shouldLoadMoreBlock{
+    self.footer.shouldLoadMoreBlock = shouldLoadMoreBlock;
+}
+
+- (BOOL (^)())shouldLoadMoreBlock{
+    return self.footer.shouldLoadMoreBlock;
+}
+
 #pragma mark - 下拉刷新
 /**
  *  添加一个下拉刷新头部控件

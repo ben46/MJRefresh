@@ -81,5 +81,6 @@
  */
 @property (nonatomic, assign, getter = isFooterHidden) BOOL footerHidden;
 @property (weak, nonatomic) UIRefreshControl *header;
+@property (nonatomic, copy) BOOL (^shouldLoadMoreBlock)();
 
 @end

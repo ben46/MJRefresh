@@ -86,6 +86,14 @@
  */
 - (void)adjustStateWithContentOffset
 {
+    
+    if(self.shouldLoadMoreBlock && !self.shouldLoadMoreBlock()) {
+        [self setHidden:YES];
+        return;
+    } else {
+        [self setHidden:NO];
+    }
+    
     if([self _scrollViewShouldLoadMore:self.scrollView]) {
         
         if(self.state == MJRefreshStateNormal || self.state == MJRefreshStatePulling) {

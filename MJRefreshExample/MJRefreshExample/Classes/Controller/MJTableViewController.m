@@ -57,7 +57,9 @@ NSString *const MJTableViewCellIdentifier = @"Cell";
     
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
     [self.tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
-    
+
+    __weak typeof(self)weakSelf = self;
+
     //#warning 自动刷新(一进入程序就下拉刷新)
     [self.tableView headerBeginRefreshing];
     [self headerRereshing];
@@ -65,6 +67,13 @@ NSString *const MJTableViewCellIdentifier = @"Cell";
     // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
     [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
     
+    [self.tableView setShouldLoadMoreBlock:^(){
+        if(weakSelf.fakeData.count >=20)
+            return NO;
+        return YES;
+    }];
+    
+
 }
 
 #pragma mark - properties
@@ -145,7 +154,8 @@ NSString *const MJTableViewCellIdentifier = @"Cell";
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MJTableViewCellIdentifier forIndexPath:indexPath];
     
-    cell.textLabel.text = self.fakeData[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%d", indexPath.row];
+    
     return cell;
 }
 

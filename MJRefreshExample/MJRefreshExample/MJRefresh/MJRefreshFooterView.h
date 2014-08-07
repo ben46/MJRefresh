@@ -10,4 +10,6 @@
 
 @interface MJRefreshFooterView : MJRefreshBaseView
 + (instancetype)footer;
+@property (nonatomic, copy) BOOL (^shouldLoadMoreBlock)();
+
 @end
