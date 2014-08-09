@@ -97,8 +97,11 @@ static void *MJRefreshBeginCallBackKey = &MJRefreshBeginCallBackKey;
 
 - (void)beginRefreshingCallded
 {
-    if(self.beginRefreshingCallback)
+    if(self.beginRefreshingCallback){
         self.beginRefreshingCallback();
+    }
+    [self.footer setHidden:NO];
+
 }
 
 /**
@@ -118,6 +121,7 @@ static void *MJRefreshBeginCallBackKey = &MJRefreshBeginCallBackKey;
     }
     
     [self.header addTarget:target action:action forControlEvents:UIControlEventValueChanged];
+    [self.header addTarget:self action:@selector(beginRefreshingCallded) forControlEvents:UIControlEventValueChanged];
     
 }
 
@@ -138,6 +142,7 @@ static void *MJRefreshBeginCallBackKey = &MJRefreshBeginCallBackKey;
     [self setContentOffset:CGPointMake(0, - 1.0f) animated:NO];
     [self setContentOffset:CGPointMake(0, - self.header.frame.size.height) animated:YES];
     [self.header beginRefreshing];
+    [self.footer setHidden:NO];
 }
 
 /**

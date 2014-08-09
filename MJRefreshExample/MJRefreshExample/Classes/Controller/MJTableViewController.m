@@ -101,10 +101,7 @@ NSString *const MJTableViewCellIdentifier = @"Cell";
     if (!_fakeData) {
         self.fakeData = [NSMutableArray array];
         
-        for (int i = 0; i<12; i++) {
-            [self.fakeData addObject:MJRandomData];
-        }
-    }
+     }
     return _fakeData;
 }
 
@@ -112,13 +109,16 @@ NSString *const MJTableViewCellIdentifier = @"Cell";
 #pragma mark 开始进入刷新状态
 - (void)headerRereshing
 {
+    
+    [self.fakeData removeAllObjects];
+    
     // 1.添加假数据
-    for (int i = 0; i<5; i++) {
+    for (int i = 0; i<12; i++) {
         [self.fakeData insertObject:MJRandomData atIndex:0];
     }
     
     // 2.2秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // 刷新表格
         [self.tableView reloadData];
         
@@ -135,7 +135,7 @@ NSString *const MJTableViewCellIdentifier = @"Cell";
     }
     
     // 2.2秒后刷新表格UI
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // 刷新表格
         [self.tableView reloadData];
         

@@ -60,7 +60,9 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     // 不能跟用户交互，直接返回
-    if (!self.userInteractionEnabled || self.alpha <= 0.01 || self.hidden) return;
+    if (!self.userInteractionEnabled || self.alpha <= 0.01 || self.hidden) {
+         return;
+    }
     
     if ([MJRefreshContentSize isEqualToString:keyPath]) {
         // 调整frame
