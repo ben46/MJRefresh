@@ -139,6 +139,7 @@ static void *MJRefreshBeginCallBackKey = &MJRefreshBeginCallBackKey;
  */
 - (void)headerBeginRefreshing
 {
+    if(self.header.isRefreshing) return;
     [self setContentOffset:CGPointMake(0, - 1.0f) animated:NO];
     [self setContentOffset:CGPointMake(0, - self.header.frame.size.height) animated:YES];
     [self.header beginRefreshing];
